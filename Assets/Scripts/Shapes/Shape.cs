@@ -7,8 +7,12 @@ public abstract class Shape : MonoBehaviour
     public enum eType
     {
         CIRCLE,
-        BOX
+        SQUARE
     }
+
+    private float m_radius;
+
+    public float radius { get { return m_radius * 0.125f; } set { m_radius = value; transform.localScale = Vector2.one * value; } }
 
     public abstract eType type { get; }
     public float density { get; set; } = 1.0f;
