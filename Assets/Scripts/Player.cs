@@ -11,32 +11,26 @@ public class Player : MonoBehaviour
     Vector2 momentum;
     PlayerActions action;
     float actionTimeLeft;
+    float jumpForce = 4.0f;
 
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            RB.AddRelativeForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             action.type = PlayerActions.Action.Jump;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(speed, GetComponent<Rigidbody2D>().velocity.y);
-            action.type = PlayerActions.Action.Move;
-        }
+        Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
+        transform.position += movement * Time.deltaTime * speed;
+        if (Input.GetAxis("Horizontal") != 0.0f) { action.type = PlayerActions.Action.Move; }
 
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(-speed, GetComponent<Rigidbody2D>().velocity.y);
-            action.type = PlayerActions.Action.Move;
-        }
-
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             action.type = PlayerActions.Action.Attack;
         }
 
-        if(GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+        if(Input.GetAxis("Horizontal") == 0.0f)
         {
             action.type = PlayerActions.Action.None;
         }
