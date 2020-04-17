@@ -8,10 +8,41 @@ public static class Collision
     {
         bool intersects = false;
 
-        Circle circleA = new Circle(positionA, ((CircleShape)shapeA).radius);
-        Circle circleB = new Circle(positionB, ((CircleShape)shapeB).radius);
+        if (shapeA.type == Shape.eType.CIRCLE)
+        {
+            if (shapeB.type == Shape.eType.CIRCLE)
+            {
+                Circle circleA = new Circle(positionA, shapeA.radius);
+                Circle circleB = new Circle(positionB, shapeB.radius);
 
-        intersects = circleA.Contains(circleB);
+                intersects = circleA.Contains(circleB);
+            }
+            else if (shapeB.type == Shape.eType.SQUARE)
+            {
+                Circle circleA = new Circle(positionA, shapeA.radius);
+                Square squareB = new Square(positionB, shapeB.radius);
+
+                intersects = circleA.Contains(squareB);
+            }
+        } else if (shapeA.type == Shape.eType.SQUARE)
+        {
+            if (shapeB.type == Shape.eType.CIRCLE)
+            {
+                Square squareA = new Square(positionA, shapeA.radius);
+                Circle circleB = new Circle(positionB, shapeB.radius);
+
+                intersects = squareA.Contains(circleB);
+            }
+            else if (shapeB.type == Shape.eType.SQUARE)
+            {
+                Square squareA = new Square(positionA, shapeA.radius);
+                Square squareB = new Square(positionB, shapeB.radius);
+
+                intersects = squareA.Contains(squareB);
+            }
+        }
+
+        
 
         return intersects;
     }
