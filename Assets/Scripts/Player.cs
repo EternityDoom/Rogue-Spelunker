@@ -15,6 +15,9 @@ public class Player : MonoBehaviour
     bool initDoubleJump = false;
     bool initAttacking = false;
     bool attacked = false;
+
+    int breakingPower = 0;
+
     Dictionary<int, bool> powerUps = new Dictionary<int, bool>();
 
     //power ups
@@ -134,6 +137,10 @@ public class Player : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
+        if(collision.gameObject.tag == "breakableWalls")
+        {
+            
+        }
 
     }
 
