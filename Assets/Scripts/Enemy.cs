@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AI : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField] float speed = 1.0f;
     public Vector2 movement { get; set; } = Vector2.left;
