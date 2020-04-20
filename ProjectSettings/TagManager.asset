@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - firstWall
   - powerUp
+  - final wall
   layers:
   - Default
   - TransparentFX

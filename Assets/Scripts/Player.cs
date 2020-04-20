@@ -8,17 +8,16 @@ public class Player : MonoBehaviour
     [SerializeField] int maxHealth = 0;
     [SerializeField] float speed;
     [SerializeField] Rigidbody2D RB = null;
-    //Vector3 movement;
+
     float actionTimeLeft;
     float jumpForce = 6.0f;
-
+    bool doubleJump = false;
+    bool initDoubleJump = false;
     Dictionary<int, bool> powerUps = new Dictionary<int, bool>();
-    //for power ups, create a dictonary with the key being the int value of the power up, the value is a bool, when a power up is collected, it will search the dictonary 
-    //and find the appropraite power up and turn it to true, these will be used in deteming the players actions 
 
     //power ups
     //1 - torch (begin progress & attack?)
-    //2 - double jump
+    //2 - double jump (two jumps for backtracking and exploring)
     //3 - 
     //4 - pickaxe (reach end the game)
 
@@ -39,20 +38,39 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && actionTimeLeft <= 0)
         {
             RB.AddRelativeForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
-            actionTimeLeft = 1.0f;
+            if(initDoubleJump)
+            {
+                actionTimeLeft = 2.0f;
+            }
+            else
+            {
+                actionTimeLeft = 1.0f;
+            }
+
+        }
+
+        if((doubleJump == true && Input.GetKeyDown(KeyCode.Space)) && actionTimeLeft <= 1.99f)
+        {
+            RB.AddRelativeForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
+            doubleJump = false;
         }
 
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += movement * speed * Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(1) && actionTimeLeft == 0)
+        if (Input.GetMouseButtonDown(0) && actionTimeLeft <= 0 && powerUps[1] == true)
         {
-            actionTimeLeft = 2.0f;
+            actionTimeLeft = 1.0f;
         }
 
         if(actionTimeLeft >= 0.0f)
         {
             actionTimeLeft -= Time.deltaTime;
+        }
+
+        if(actionTimeLeft <= 0.0f && initDoubleJump == true)
+        {
+            doubleJump = true;
         }
 
         if(currentHealth <= 0)
@@ -66,6 +84,27 @@ public class Player : MonoBehaviour
             foreach(GameObject go in gos)
             {
                 go.GetComponent<BoxCollider2D>().enabled = false;
+                go.GetComponent<SpriteRenderer>().enabled = false;
+            }
+        }
+
+        if(powerUps[2] == true)
+        {
+            initDoubleJump = true;
+        }
+
+        if (powerUps[3] == true)
+        {
+            
+        }
+
+        if (powerUps[4] == true) //just desapwns the final wall, figured we dont have the time to make an actual breaking mechanic
+        {
+            GameObject[] gos = GameObject.FindGameObjectsWithTag("final wall");
+            foreach (GameObject go in gos)
+            {
+                go.GetComponent<BoxCollider2D>().enabled = false;
+                go.GetComponent<SpriteRenderer>().enabled = false;
             }
         }
 
