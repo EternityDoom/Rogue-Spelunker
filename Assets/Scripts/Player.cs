@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] int maxHealth = 0;
     [SerializeField] float speed;
     [SerializeField] Rigidbody2D RB = null;
+    [SerializeField] BoxCollider2D weapon = null;
 
     float actionTimeLeft;
     float jumpForce = 6.0f;
@@ -15,6 +16,7 @@ public class Player : MonoBehaviour
     bool initDoubleJump = false;
     bool initAttacking = false;
     bool attacked = false;
+    bool[] powerUps;
 
     //power ups
     //1 - torch (begin progress)
@@ -22,12 +24,14 @@ public class Player : MonoBehaviour
     //3 - sword (attacking)
     //4 - pickaxe (reach end the game)
 
-    
+
 
     public void Start()
     {
         maxHealth = 100;
         currentHealth = maxHealth;
+        weapon = gameObject.GetComponentInChildren<BoxCollider2D>();
+        weapon.enabled = false;
     }
 
     public void Update()
@@ -58,6 +62,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && actionTimeLeft <= 0 && attacked == true)
         {
             actionTimeLeft = 1.0f;
+            weapon.enabled = true;
             Debug.Log("Player attacked");
         }
 
@@ -66,7 +71,12 @@ public class Player : MonoBehaviour
             actionTimeLeft -= Time.deltaTime;
         }
 
-        if(actionTimeLeft <= 0.0f && initDoubleJump == true)
+        if (actionTimeLeft <= 0.5f && weapon.enabled)
+        {
+            weapon.enabled = false;
+        }
+
+        if (actionTimeLeft <= 0.0f && initDoubleJump == true)
         {
             doubleJump = true;
         }
@@ -81,7 +91,7 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         }
 
-        bool[] powerUps = GetComponentInParent<Game>().powerFound;
+        powerUps = GetComponentInParent<Game>().powerFound;
 
 
         if(powerUps[1] == true)
@@ -115,7 +125,14 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "breakableWalls")
         {
-            
+            int BP = collision.gameObject.GetComponent<Tile>().breakingPower;
+            if(BP >= 0)
+            {
+                if(powerUps[BP] == true)
+                {
+                    Destroy(collision.gameObject);
+                }
+            }
         }
 
     }

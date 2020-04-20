@@ -5171,6 +5171,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TempPlayer
       objectReference: {fileID: 0}
+    - target: {fileID: 1895812475926187298, guid: 5e8faf5f93798564cb2f42845d11140f,
+        type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 907660698}
     - target: {fileID: 1895812475926187299, guid: 5e8faf5f93798564cb2f42845d11140f,
         type: 3}
       propertyPath: m_Constraints
@@ -5266,6 +5271,12 @@ PrefabInstance:
 --- !u!4 &907660697 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1895812475926187308, guid: 5e8faf5f93798564cb2f42845d11140f,
+    type: 3}
+  m_PrefabInstance: {fileID: 907660696}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &907660698 stripped
+BoxCollider2D:
+  m_CorrespondingSourceObject: {fileID: 8878586503042829748, guid: 5e8faf5f93798564cb2f42845d11140f,
     type: 3}
   m_PrefabInstance: {fileID: 907660696}
   m_PrefabAsset: {fileID: 0}
