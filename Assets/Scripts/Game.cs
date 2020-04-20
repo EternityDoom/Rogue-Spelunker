@@ -9,7 +9,7 @@ public class Game : MonoBehaviour
     public List<Enemy> enemies { get; set; }
     public List<Tile> tiles { get; set; }
     public List<Powerup> powerups { get; set; }
-    public bool[] powerFound { get; set; } = null;
+    [SerializeField] public bool[] powerFound = null;
     public Vector2 respawnPoint { get; set; } = new Vector2(0, 0);
 
     private void Awake()
