@@ -27,6 +27,5 @@ public class Game : MonoBehaviour
             spawn.transform.position = respawnPoint;
             player = spawn.GetComponent<Player>();
         }
-        Camera.main.transform.position = player.gameObject.transform.position;
     }
 }

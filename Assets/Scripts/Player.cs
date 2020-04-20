@@ -15,7 +15,6 @@ public class Player : MonoBehaviour
     bool initDoubleJump = false;
     bool initAttacking = false;
     bool attacked = false;
-    Dictionary<int, bool> powerUps = new Dictionary<int, bool>();
 
     //power ups
     //1 - torch (begin progress)
@@ -29,10 +28,6 @@ public class Player : MonoBehaviour
     {
         maxHealth = 100;
         currentHealth = maxHealth;
-        powerUps.Add(1, false);
-        powerUps.Add(2, false);
-        powerUps.Add(3, false);
-        powerUps.Add(4, false);
     }
 
     public void Update()
@@ -86,35 +81,19 @@ public class Player : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (powerUps[1] == true)
-        {
-            GameObject[] gos = GameObject.FindGameObjectsWithTag("firstWall");
-            foreach(GameObject go in gos)
-            {
-                go.GetComponent<BoxCollider2D>().enabled = false;
-                go.GetComponent<SpriteRenderer>().enabled = false;
-            }
-        }
+        bool[] powerUps = GetComponentInParent<Game>().powerFound;
 
-        if(powerUps[2] == true)
+
+        if(powerUps[1] == true)
         {
             initDoubleJump = true;
         }
 
-        if (powerUps[3] == true)
+        if (powerUps[2] == true)
         {
             initAttacking = true;
         }
 
-        if (powerUps[4] == true) //just desapwns the final wall, figured we dont have the time to make an actual breaking mechanic
-        {
-            GameObject[] gos = GameObject.FindGameObjectsWithTag("final wall");
-            foreach (GameObject go in gos)
-            {
-                go.GetComponent<BoxCollider2D>().enabled = false;
-                go.GetComponent<SpriteRenderer>().enabled = false;
-            }
-        }
 
     }
 
@@ -130,7 +109,7 @@ public class Player : MonoBehaviour
         {
             Debug.Log("Picked up power up");
             int index = collision.gameObject.GetComponent<Powerup>().Pickup();
-            powerUps[index] = true;
+            GetComponentInParent<Game>().powerFound[index] = true;
             Destroy(collision.gameObject);
         }
 
