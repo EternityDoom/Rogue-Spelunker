@@ -13,12 +13,14 @@ public class Player : MonoBehaviour
     float jumpForce = 6.0f;
     bool doubleJump = false;
     bool initDoubleJump = false;
+    bool initAttacking = false;
+    bool attacked = false;
     Dictionary<int, bool> powerUps = new Dictionary<int, bool>();
 
     //power ups
-    //1 - torch (begin progress & attack?)
+    //1 - torch (begin progress)
     //2 - double jump (two jumps for backtracking and exploring)
-    //3 - 
+    //3 - sword (attacking)
     //4 - pickaxe (reach end the game)
 
     
@@ -58,9 +60,10 @@ public class Player : MonoBehaviour
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += movement * speed * Time.deltaTime;
 
-        if (Input.GetMouseButtonDown(0) && actionTimeLeft <= 0 && powerUps[1] == true)
+        if (Input.GetMouseButtonDown(0) && actionTimeLeft <= 0 && attacked == true)
         {
             actionTimeLeft = 1.0f;
+            Debug.Log("Player attacked");
         }
 
         if(actionTimeLeft >= 0.0f)
@@ -73,7 +76,12 @@ public class Player : MonoBehaviour
             doubleJump = true;
         }
 
-        if(currentHealth <= 0)
+        if (actionTimeLeft <= 0.0f && initAttacking == true)
+        {
+            attacked = true;
+        }
+
+        if (currentHealth <= 0)
         {
             Destroy(gameObject);
         }
@@ -95,7 +103,7 @@ public class Player : MonoBehaviour
 
         if (powerUps[3] == true)
         {
-            
+            initAttacking = true;
         }
 
         if (powerUps[4] == true) //just desapwns the final wall, figured we dont have the time to make an actual breaking mechanic
