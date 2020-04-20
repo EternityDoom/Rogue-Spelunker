@@ -9,6 +9,7 @@ TagManager:
   - firstWall
   - powerUp
   - final wall
+  - weapon
   layers:
   - Default
   - TransparentFX
