@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Game : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Game : MonoBehaviour
     public List<Powerup> powerups { get; set; }
     [SerializeField] public bool[] powerFound = null;
     public Vector2 respawnPoint { get; set; } = new Vector2(0, 0);
+    [SerializeField] string victoryScene = null;
 
     private void Awake()
     {
@@ -27,5 +29,10 @@ public class Game : MonoBehaviour
             spawn.transform.position = respawnPoint;
             player = spawn.GetComponent<Player>();
         }
+    }
+
+    public void Win()
+    {
+        SceneManager.LoadScene(victoryScene);
     }
 }

@@ -36,6 +36,11 @@ public class Player : MonoBehaviour
 
     public void Update()
     {
+        if (gameObject.transform.position.y >= 18)
+        {
+            GetComponentInParent<Game>().Win();
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.Space) && actionTimeLeft <= 0)
         {
             RB.AddRelativeForce(Vector3.up * jumpForce, ForceMode2D.Impulse);
@@ -111,13 +116,17 @@ public class Player : MonoBehaviour
     {
         if(collision.gameObject.tag == "Enemy")
         {
-            currentHealth -= 10;
-            Destroy(collision.gameObject);
+            if (weapon.enabled)
+            {
+                Destroy(collision.gameObject);
+            } else
+            {
+                transform.position = GetComponentInParent<Game>().respawnPoint;
+            }
         }
 
         if(collision.gameObject.tag == "powerUp")
         {
-            Debug.Log("Picked up power up");
             int index = collision.gameObject.GetComponent<Powerup>().Pickup();
             GetComponentInParent<Game>().powerFound[index] = true;
             Destroy(collision.gameObject);
@@ -125,10 +134,12 @@ public class Player : MonoBehaviour
 
         if(collision.gameObject.tag == "breakableWalls")
         {
+            Debug.Log("Hit a breakable wall");
             int BP = collision.gameObject.GetComponent<Tile>().breakingPower;
             if(BP >= 0)
             {
-                if(powerUps[BP] == true)
+                Debug.Log("Breaks on " + BP + ", powerup is " + (powerUps[BP]));
+                if (powerUps[BP])
                 {
                     Destroy(collision.gameObject);
                 }

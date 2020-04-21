@@ -15,13 +15,17 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(movement == Vector2.left)
+        if (Mathf.Abs(collision.collider.transform.position.y - collision.otherCollider.transform.position.y) <= 0.5f)
         {
-            movement = Vector2.right;
-        }
-        else
-        {
-            movement = Vector2.left;
+            Debug.Log("Enemy hit with height gap " + Mathf.Abs(collision.collider.transform.position.y - collision.otherCollider.transform.position.y));
+            if (movement == Vector2.left)
+            {
+                movement = Vector2.right;
+            }
+            else
+            {
+                movement = Vector2.left;
+            }
         }
     }
 }
