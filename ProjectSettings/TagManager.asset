@@ -10,6 +10,7 @@ TagManager:
   - powerUp
   - final wall
   - weapon
+  - breakableWalls
   layers:
   - Default
   - TransparentFX
