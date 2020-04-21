@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Wall
+  - firstWall
+  - powerUp
+  - final wall
+  - weapon
   layers:
   - Default
   - TransparentFX
